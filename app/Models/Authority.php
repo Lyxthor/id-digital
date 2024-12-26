@@ -3,15 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Authority extends Model
 {
-    public function Officer()
+    public function officer()
     {
-        
+        return $this->belongsTo(Officer::class);
     }
-    public function Domain()
+    public function authorizable() : MorphTo
     {
-
+        return $this->morphTo('authorizable', 'domain_type', 'domain_id');
     }
 }

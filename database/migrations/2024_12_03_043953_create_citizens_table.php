@@ -18,9 +18,14 @@ return new class extends Migration
             $table->string('birth_place');
             $table->datetime('birth_date');
             $table->text('current_address');
-            $table->foreignId('user_id');
             $table->string('no_kk');
             $table->string('family_role');
+            $table->unsignedBigInteger('rt_id')->nullable();
+            $table->foreign('rt_id')
+            ->references('id')
+            ->on('rts')
+            ->nullOnDelete()
+            ->cascadeOnUpdate();
             $table->timestamps();
         });
     }

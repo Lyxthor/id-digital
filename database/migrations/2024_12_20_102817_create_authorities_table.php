@@ -14,11 +14,13 @@ return new class extends Migration
         Schema::create('authorities', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('officer_id');
-            $table->unsignedBigInteger('domain_id');
-            $table->enum('domain_type', ['kelurahan', 'rw', 'rt']);
+            $table->unsignedBigInteger('authorizable_id');
+            $table->enum('authorizable_type', ['kelurahan', 'rw', 'rt']);
             $table->foreign('officer_id')
             ->references('id')
-            ->on('officers');
+            ->on('officers')
+            ->cascadeOnDelete()
+            ->cascadeOnUpdate();
             $table->timestamps();
         });
     }

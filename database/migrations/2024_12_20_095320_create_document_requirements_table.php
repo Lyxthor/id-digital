@@ -18,10 +18,14 @@ return new class extends Migration
 
             $table->foreign('submission_id')
             ->references('id')
-            ->on('submissions');
+            ->on('submissions')
+            ->cascadeOnDelete()
+            ->cascadeOnUpdate();
             $table->foreign('type_id')
             ->references('id')
-            ->on('document_types');
+            ->on('document_types')
+            ->cascadeOnDelete()
+            ->cascadeOnUpdate();
             $table->timestamps();
         });
     }

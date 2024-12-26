@@ -6,6 +6,8 @@ use App\Models\Citizen;
 use Dotenv\Exception\ValidationException as ExceptionValidationException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class CitizenController extends Controller
 {
@@ -17,7 +19,8 @@ class CitizenController extends Controller
         "birth_date"=>"required",
         "current_address"=>"required",
         "no_kk"=>"required",
-        "family_role"=>"required"
+        "family_role"=>"required",
+        "rt_id"=>"required|exists:rts,id"
     ];
     public function index()
     {
@@ -43,8 +46,6 @@ class CitizenController extends Controller
         try
         {
             $req->validate($this->store_rules);
-
-
         }
         catch(ValidationException $e)
         {
@@ -69,9 +70,13 @@ class CitizenController extends Controller
                 "message"=>"Citizen not found"
             ], 401);
         }
+
         return response()->json([
             "message"=>"Citizen with nik $citizen->nik",
-            "data"=>$citizen
+            "data"=>[
+                "citizen"=>$citizen,
+                "user"=>$citizen->user
+            ]
         ], 200);
     }
     public function destroy()

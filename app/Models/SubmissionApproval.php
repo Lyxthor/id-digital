@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class DocumentRequirement extends Model
+class SubmissionApproval extends Model
 {
     //
     protected $guarded = ['id'];

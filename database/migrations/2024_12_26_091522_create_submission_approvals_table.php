@@ -11,23 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('documents', function (Blueprint $table) {
+        Schema::create('submission_approvals', function (Blueprint $table) {
             $table->id();
-            $table->string('doc_path');
-            $table->unsignedBigInteger('type_id');
             $table->unsignedBigInteger('citizen_id');
-            
-            $table->foreign('type_id')
-            ->references('id')
-            ->on('document_types')
-            ->onDelete('cascade')
-            ->onUpdate('cascade');
+            $table->unsignedBigInteger('submission_id');
+
             $table->foreign('citizen_id')
             ->references('id')
             ->on('citizens')
-            ->onDelete('cascade')
-            ->onUpdate('cascade');
-            $table->unique(['citizen_id', 'type_id']);
+            ->cascadeOnDelete()
+            ->cascadeOnUpdate();
+            $table->foreign('submission_id')
+            ->references('id')
+            ->on('submissions')
+            ->cascadeOnDelete()
+            ->cascadeOnUpdate();
             $table->timestamps();
         });
     }
@@ -37,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('documents');
+        Schema::dropIfExists('submission_approvals');
     }
 };

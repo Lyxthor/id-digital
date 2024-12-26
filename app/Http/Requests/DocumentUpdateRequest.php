@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\OnlyOneTypeOfDocument;
 
 class DocumentUpdateRequest extends FormRequest
 {

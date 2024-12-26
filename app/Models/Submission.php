@@ -6,5 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Submission extends Model
 {
-    //
+    protected $guarded = ['id'];
+    public function document_requirements()
+    {
+        return $this->hasMany(\App\Models\DocumentRequirement::class, 'submission_id', 'id');
+    }
+    public function submission_domains()
+    {
+        return $this->hasMany(\App\Models\SubmissionDomain::class, 'submission_id', 'id');
+    }
 }

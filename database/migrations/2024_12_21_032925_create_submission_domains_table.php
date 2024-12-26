@@ -11,15 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('submissions', function (Blueprint $table) {
+        Schema::create('submission_domains', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 200);
-            $table->text('desc');
-            $table->unsignedBigInteger('author_id');
-            $table->dateTime('deadline');
-            $table->foreign('author_id')
+            $table->unsignedBigInteger('submission_id');
+            $table->unsignedBigInteger('domain_id');
+            $table->enum('domain_type', ['kelurahan', 'rw', 'rt']);
+            $table->foreign('submission_id')
             ->references('id')
-            ->on('officers')
+            ->on('submissions')
             ->cascadeOnDelete()
             ->cascadeOnUpdate();
             $table->timestamps();
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('submissions');
+        Schema::dropIfExists('submission_domains');
     }
 };
