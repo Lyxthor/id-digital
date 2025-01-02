@@ -25,22 +25,26 @@
                         <tr>
                             <th class="py-2 px-4 bg-gray-200 font-bold uppercase text-sm text-gray-600">ID</th>
                             <th class="py-2 px-4 bg-gray-200 font-bold uppercase text-sm text-gray-600">Title</th>
+                            <th class="py-2 px-4 bg-gray-200 font-bold uppercase text-sm text-gray-600">Region Tujuan</th>
                             <th class="py-2 px-4 bg-gray-200 font-bold uppercase text-sm text-gray-600">Description</th>
+                            <th class="py-2 px-4 bg-gray-200 font-bold uppercase text-sm text-gray-600">Deadline</th>
                             <th class="py-2 px-4 bg-gray-200 font-bold uppercase text-sm text-gray-600">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                            <tr>
-                                <td class="py-2 px-4 border-b border-gray-200">1</td>
-                                <td class="py-2 px-4 border-b border-gray-200">Data Kesehatan</td>
-                                <td class="py-2 px-4 border-b border-gray-200">Blabalabala</td>
-                                <td class="py-2 px-4 border-b border-gray-200">
-                                    <a href="#" class="bg-yellow-500 text-white px-4 py-2 rounded">Edit</a>
-                                    <form action="#" method="POST" class="inline-block">
-                                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Delete</button>
-                                    </form>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td class="py-2 px-4 border-b border-gray-200">1</td>
+                            <td class="py-2 px-4 border-b border-gray-200">Data Kesehatan</td>
+                            <td class="py-2 px-4 border-b border-gray-200">RT</td>
+                            <td class="py-2 px-4 border-b border-gray-200">Blabalabala</td>
+                            <td class="py-2 px-4 border-b border-gray-200">2023-12-31</td>
+                            <td class="py-2 px-4 border-b border-gray-200">
+                                <a href="#" class="bg-yellow-500 text-white px-4 py-2 rounded">Edit</a>
+                                <form action="#" method="POST" class="inline-block">
+                                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
