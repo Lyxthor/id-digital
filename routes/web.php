@@ -33,6 +33,20 @@ use Illuminate\Support\Facades\Route;
     Route::get('masterPendudukPage',[AdminController::class, 'masterPendudukPage'])->name('masterPendudukPage');
     Route::get('editMasterPendudukPage',[AdminController::class,'editMasterPendudukPage'])->name('editMasterPendudukPage');
 
+
+    Route::get('/', [AuthController::class, 'showScanFace'])->name('showScanFace');
+    Route::get('inputtoken',[AuthController::class, 'showInputToken'])->name(('showInputToken'));
+    Route::get('Email',[AuthController::class, 'showVerifikasiEmail'])->name(('showVerifikasiEmail'));
+    Route::get('Request',[AuthController::class, 'showRequestData'])->name(('showRequestData'));
+    Route::get('Upload',[AuthController::class, 'showUpDokumen'])->name(('showUpDokumen'));
+    Route::get('Dokumen',[AuthController::class, 'showLihatDokumen'])->name(('showLihatDokumen'));
+    Route::get('Status',[AuthController::class, 'showStatus'])->name(('showStatus'));
+    Route::get('Updatedata',[AuthController::class, 'showUpdatedata'])->name(('showUpdatedata'));
+
+
+
+
+
 // Route::group(["middleware"=>['auth:sanctum', 'user_type_auth:officer']], function() {
     Route::get('submission_approvals', [SubmissionApprovalController::class, 'index']);
     Route::get('submission_approvals/{id}', [SubmissionApprovalController::class, 'show']);
@@ -41,26 +55,7 @@ use Illuminate\Support\Facades\Route;
     Route::delete('submission_approvals/{id}', [SubmissionApprovalController::class, 'destroy']);
 // });
 
-Route::get('officers', [OfficerController::class, 'index']);
-Route::get('officers/{officer}', [OfficerController::class, 'show']);
-Route::post('officers', [OfficerController::class, 'store']);
-Route::put('officers/{officer}', [OfficerController::class, 'update']);
-Route::delete('officers/{officer}', [OfficerController::class, 'destroy']);
-
-Route::get('documents', [DocumentController::class, 'index']);
-Route::get('documents/{document}', [DocumentController::class, 'show']);
-Route::post('documents', [DocumentController::class, 'store']);
-Route::put('documents/{document}', [DocumentController::class, 'update']);
-Route::delete('documents/{document}', [DocumentController::class, 'destroy']);
-
-Route::get('citizens', [CitizenController::class, 'index']);
-Route::get('citizens/{citizen}', [CitizenController::class, 'show']);
-Route::post('citizens', [CitizenController::class, 'store']);
-Route::put('citizens/{citizen}', [CitizenController::class, 'update']);
-Route::delete('citizens/{citizen}', [CitizenController::class, 'destroy']);
-
-Route::get('submissions', [SubmissionController::class, 'index']);
-Route::get('submissions/{id}', [SubmissionController::class, 'show']);
-Route::post('submissions', [SubmissionController::class, 'store']);
-Route::put('submissions/{id}', [SubmissionController::class, 'update']);
-Route::delete('submissions/{id}', [SubmissionController::class, 'destroy']);
+Route::resource('officers', OfficerController::class);
+Route::resource('documents', DocumentController::class);
+Route::resource('citizens', CitizenController::class);
+Route::resource('submissions', SubmissionController::class);
