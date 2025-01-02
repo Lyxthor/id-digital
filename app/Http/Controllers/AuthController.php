@@ -13,6 +13,15 @@ use Illuminate\Validation\ValidationException;
 class AuthController extends Controller
 {
 
+    public function showLoginform()
+    {
+        return view('auth.login');
+    }
+
+    public function showRegister(){
+        return view('auth.register');
+    }
+
     public function login(LoginRequest $req)
     {
         return $this->getResponse(function() use($req) {
