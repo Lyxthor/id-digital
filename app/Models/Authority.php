@@ -13,6 +13,6 @@ class Authority extends Model
     }
     public function authorizable() : MorphTo
     {
-        return $this->morphTo('authorizable', 'domain_type', 'domain_id');
+        return $this->morphTo('authorizable', 'authorizable_type', 'authorizable_id');
     }
 }

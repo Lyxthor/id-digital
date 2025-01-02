@@ -16,8 +16,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
-            "not_auth"=>\App\Http\Middleware\NotAuth::class,
-            "user_type_auth"=>\App\Http\Middleware\UserTypeAuth::class,
+            "auth.not"=>\App\Http\Middleware\NotAuth::class,
+            "user.type"=>\App\Http\Middleware\UserTypeAuth::class,
             "officerAuthority"=>CheckOfficerAuthority::class,
             "submission.access"=>SubmissionAccess::class
         ]);

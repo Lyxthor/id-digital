@@ -19,4 +19,10 @@ class Submission extends Model
     {
         return $this->hasMany(\App\Models\SubmissionApproval::class, 'submission_id', 'id');
     }
+    public function scopeUserSubmission($query, $domainIds)
+    {
+        return $query
+        ->whereRelation("submission_domains", "domain_type", "in", ["kelurahan", "rw", "rt"])
+        ->whereRelation("submission_domains", "domain_id", "in", $domainIds);
+    }
 }

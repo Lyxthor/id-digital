@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\TextCipherHelper;
 use App\Http\Requests\StoreSubmissionRequest;
+use App\Http\Requests\StoreCitizenRequest;
 use App\Models\Citizen;
 use Dotenv\Exception\ValidationException as ExceptionValidationException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use App\Models\User;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class CitizenController extends Controller
@@ -31,14 +34,20 @@ class CitizenController extends Controller
             ], 500);
         }
     }
-    public function store(StoreSubmissionRequest $req)
+    public function store(StoreCitizenRequest $req)
     {
         try
         {
             $validData = $req->validated();
-            $citizen = Citizen::create($validData);
+            $notEncryptedFields = ['rt_id', 'birth_date'];
+            $encryptedData = array_map(function($data) {
+                $e = TextCipherHelper::encrypt($data, env('ENCRIPTION_KEY'));
+                return base64_encode($e);
+            }, Arr::except($validData, $notEncryptedFields));
+            $data = array_merge($encryptedData, Arr::only($validData, $notEncryptedFields));
+            $citizen = Citizen::create($data);
             return response()->json([
-                "message"=>"Add citizen $citizen->nik is success",
+                "message"=>"Add citizen $data[nik] is success",
                 "data"=>$citizen
             ], 201);
         }
@@ -66,12 +75,19 @@ class CitizenController extends Controller
                 "message"=>"Citizen not found"
             ], 401);
         }
-
+        $user = $citizen->user;
+        $citizen = $citizen->toArray();
+        $notEncryptedFields = ['rt_id', 'birth_date', 'id', 'user'];
+        $decryptedData = array_map(function($data) {
+            $e = base64_decode($data);
+            return TextCipherHelper::decrypt($e, env('ENCRIPTION_KEY'));
+        }, Arr::except($citizen, $notEncryptedFields));
+        $data = array_merge($decryptedData, Arr::only($citizen, $notEncryptedFields));
         return response()->json([
-            "message"=>"Citizen with nik $citizen->nik",
+            "message"=>"Citizen with nik $data[nik]",
             "data"=>[
-                "citizen"=>$citizen,
-                "user"=>$citizen->user
+                "citizen"=>$data,
+                "user"=>$user
             ]
         ], 200);
     }

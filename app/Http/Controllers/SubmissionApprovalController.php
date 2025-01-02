@@ -7,6 +7,7 @@ use App\Models\SubmissionApproval;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Routing\Controllers\HasMiddleware;
+use App\Models\Submission;
 
 class SubmissionApprovalController extends Controller implements HasMiddleware
 {
@@ -16,9 +17,20 @@ class SubmissionApprovalController extends Controller implements HasMiddleware
             new Middleware(middleware: 'submission.access', only: ['show']),
         ];
     }
-    public function index()
+    public function index(Request $req)
     {
+        $user = $req->user();
+        //dd($user->userable->rt());
+        $rt = $user->userable->rt;
+        $rw = $rt->rw;
+        $kelurahan = $rw->kelurahan;
+        // dd($rw->id);
+        dd($kelurahan->submission_domains);
 
+        $submissions = [];
+        array_merge($submissions, $rt->submission_domains->toArray(), $rw->submission_domains->toArray(), $kelurahan->submission_domains->toArray());
+
+        return $submissions;
     }
     public function store(StoreSubmissionApprovalRequest $req)
     {
