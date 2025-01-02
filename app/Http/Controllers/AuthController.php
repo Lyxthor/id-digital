@@ -48,16 +48,12 @@ class AuthController extends Controller
     {
         return $this->getResponse(function() use($req) {
             $credentials = $req->validated();
-            $user = $credentials['user'];
-            $current_time = Date::now();
-            $token = "$user->id _ $user->username _ $current_time";
-            $token = $user->createToken($token);
-            $token->accessToken->expires_at = Date::now()->addMinutes(120);
-            $token->accessToken->save();
-            return response()->json([
-                "message"=>"Login success",
-                "token"=>$token->plainTextToken
-            ], 200);
+
+            if(Auth::attempt($credentials))
+            {
+                return redirect()->route('dashboard')->with('success', 'citizen logged in successfully');
+            }
+            return back()->with('error', 'invalid credentials');
         });
     }
     private function getResponse($func)

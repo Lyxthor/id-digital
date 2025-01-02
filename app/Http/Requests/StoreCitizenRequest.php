@@ -11,7 +11,7 @@ class StoreCitizenRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -29,7 +29,7 @@ class StoreCitizenRequest extends FormRequest
             "current_address"=>"required",
             "no_kk"=>"required",
             "family_role"=>"required",
-            "rt_id"=>"required|exists:rts,id"
+            "rt_id"=>"required|exists:rts,id",
         ];
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class SubmissionDomain extends Model
 {
@@ -12,5 +13,9 @@ class SubmissionDomain extends Model
     {
         return $this->belongsTo(Submission::class,'submission_id','id');
     }
-    
+    public function domain() : MorphTo
+    {
+        return $this->morphTo('domain', 'domain_type', 'domain_id');
+    }
+
 }

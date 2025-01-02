@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreSubmissionRequest;
 use App\Http\Requests\UpdateSubmissionRequest;
 use App\Models\DocumentRequirement;
+use App\Models\DocumentType;
+use App\Models\Kelurahan;
 use App\Models\Submission;
 use App\Models\SubmissionDomain;
 use Illuminate\Http\Request;
@@ -17,6 +19,12 @@ class SubmissionController extends Controller
             "message"=>"All submission data",
             "data"=>Submission::all()
         ]);
+    }
+    public function create()
+    {
+        
+        $document_types = DocumentType::select(['id', 'name'])->all();
+        return view("frontend.officer.submission.create");
     }
     public function store(StoreSubmissionRequest $req)
     {

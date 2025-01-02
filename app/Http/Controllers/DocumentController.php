@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ImageCipherHelper;
+use App\Helpers\TextCipherHelper;
 use App\Http\Requests\DocumentStoreRequest;
 use App\Http\Requests\DocumentUpdateRequest;
 use App\Models\Document;
@@ -10,6 +12,7 @@ use App\Models\DocumentType;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Arr;
 
 class DocumentController extends Controller
 {
@@ -49,6 +52,25 @@ class DocumentController extends Controller
             'data'=>$doc
         ], 200);
     }
+    public function displayImage($filename)
+    {
+        $filePath = public_path('images/' . $filename);
+
+        // Pastikan file ada
+        if (!file_exists($filePath)) {
+            abort(404, 'File not found.');
+        }
+
+        // Baca dan dekripsi konten file
+        $encryptedContent = file_get_contents($filePath);
+        $decryptedContent = ImageCipherHelper::decrypt($encryptedContent);
+
+        // Tentukan MIME type berdasarkan ekstensi file
+        $mimeType = 'image/' . pathinfo($filename, PATHINFO_EXTENSION);
+
+        // Kembalikan respons gambar
+        return response($decryptedContent, 200)->header('Content-Type', $mimeType);
+    }
     public function edit()
     {
         try
@@ -70,9 +92,10 @@ class DocumentController extends Controller
             $file = $req->file('document_file');
             $path = $this->storeImage($file);
             $validData['doc_path'] = $path;
-            unset($validData['document_file']); // remove document_file since it's not get needed anymore
-
+            unset($validData['document_file']);
+            // remove document_file since it's not get needed anymore
             $data = Document::create($validData);
+
             return response()->json([
                 "message"=>"Add document for citizen $validData[citizen_id] is success",
                 "data"=>$data
@@ -82,10 +105,19 @@ class DocumentController extends Controller
     // Notes : Turn storeImage method into a global method or a method of a helper class
     private function storeImage($file) // Save and return the image path
     {
-        $file_name = time() . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
-        $path = "images";
-        $file_path = $file->storeAs($path, $file_name, 'public');
-        return $file_path;
+
+            $fileContent = file_get_contents($file);
+            $encryptedContent = ImageCipherHelper::encrypt($fileContent); // Enkripsi konten file
+            $fileName = TextCipherHelper::encrypt($file, env('ENCRIPTION_KEY')); // Nama file hash dengan ekstensi
+            $fileName = base64_encode($fileName).".enc";
+            $filePath = public_path('images/' . $fileName);
+
+            // Simpan file terenkripsi ke path tujuan
+            file_put_contents($filePath, $encryptedContent);
+
+            // Simpan nama file ke database
+            return $fileName;
+
     }
     public function update(DocumentUpdateRequest $req, Document $doc)
     {

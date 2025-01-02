@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Auth;
 
 class UserTypeAuth
 {
@@ -13,13 +14,13 @@ class UserTypeAuth
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, $type): Response
+    public function handle(Request $request, Closure $next, ...$types): Response
     {
-        $user = $request->user();
-        if($user->userable_type == $type)
+        $user = Auth::user();
+        if(in_array($user->userable_type, $types))
         {
             return $next($request);
         }
-        return response()->json(["message"=>"unauthorized"], 401);
+        return redirect()->route('dashboard')->with('error', 'unauthorized user');
     }
 }

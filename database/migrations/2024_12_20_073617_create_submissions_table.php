@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('desc');
             $table->unsignedBigInteger('author_id');
             $table->dateTime('deadline');
+            
             $table->foreign('author_id')
             ->references('id')
             ->on('officers')

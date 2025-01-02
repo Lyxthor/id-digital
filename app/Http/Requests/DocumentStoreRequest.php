@@ -29,7 +29,7 @@ class DocumentStoreRequest extends FormRequest
         return
         [
             "citizen_id"=>["required", "exists:citizens,id"],
-            "document_file"=>["required", "image:png"],
+            "document_file"=>["required", "image:png,jpeg,jpg"],
             "type_id"=>["required", "exists:document_types,id", new OnlyOneTypeOfDocument($this->citizen_id)]
         ];
     }

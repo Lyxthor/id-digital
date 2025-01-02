@@ -22,4 +22,7 @@ class Citizen extends Model
     {
         return $this->morphOne(User::class, 'userable');
     }
+    public function rt() {
+        return $this->belongsTo(\App\Models\Rt::class);
+    }
 }

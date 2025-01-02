@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Models\Kelurahan;
 use App\Models\Rw;
 use Illuminate\Http\Response as HttpResponse;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class SubmissionAccess
 {
@@ -30,7 +32,7 @@ class SubmissionAccess
         $domainModel = config('morphmap');
         $modelName = explode(".", Route::currentRouteName())[0];
         $id = $request->route('id');
-        $user = $request->user();
+        $user = Auth::user();
 
 
         $submission = $this->model[$modelName]::find($id);
@@ -40,6 +42,7 @@ class SubmissionAccess
 
         foreach($user->userable->authorities as $auth)
         {
+            //dd($auth->authorizable);
             $data = $domainModel[$auth->authorizable_type]::select(['id'])->withSubDomains()->find($auth->authorizable_id)->toArray();
             $data = $this->DispatchDomain($auth->authorizable_type, $data);
             foreach($domains as $d)
@@ -57,8 +60,6 @@ class SubmissionAccess
     }
     private function DispatchDomain($domainName, $domains)
     {
-        $domain = [$domainName=>[]];
-        $sub_domains = [];
         $result = [];
         foreach(array_keys($domains) as $key)
         {
@@ -66,7 +67,7 @@ class SubmissionAccess
             {
                 foreach($domains[$key] as $sd)
                 {
-                    array_push($result, $key.$sd['id']);
+                    array_push($result, Str::singular($key).$sd['id']);
                 }
             }
             else
@@ -75,7 +76,5 @@ class SubmissionAccess
             }
         }
         return $result;
-
-
     }
 }

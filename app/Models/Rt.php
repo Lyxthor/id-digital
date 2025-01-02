@@ -12,9 +12,13 @@ class Rt extends Model
     protected $guarded = ['id'];
     public function authorities() : MorphMany
     {
-        return $this->morphMany(\App\Models\Authority::class, 'authorizable', 'domain_type', 'domain_id');
+        return $this->morphMany(\App\Models\Authority::class, 'authorizable', 'authorizable_type', 'authorizable_id');
     }
-    public function Rw()
+    public function submission_domains() : MorphMany
+    {
+        return $this->morphMany(\App\Models\SubmissionDomain::class, 'domain', 'domain_type', 'domain_id', 'id');
+    }
+    public function rw()
     {
         return $this->belongsTo(\App\Models\Rw::class, 'rw_id', 'id');
     }

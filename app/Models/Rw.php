@@ -12,7 +12,11 @@ class Rw extends Model
     protected $guarded = ['id'];
     public function authorities() : MorphMany
     {
-        return $this->morphMany(\App\Models\Authority::class, 'authorizable', 'domain_type', 'domain_id');
+        return $this->morphMany(\App\Models\Authority::class, 'authorizable', 'authorizable_type', 'authorizable_id');
+    }
+    public function submission_domains() : MorphMany
+    {
+        return $this->morphMany(\App\Models\SubmissionDomain::class, 'domain', 'domain_type', 'domain_id');
     }
     public function kelurahan()
     {
@@ -24,6 +28,6 @@ class Rw extends Model
     }
     public function scopeWithSubDomains($query)
     {
-        return $query->with(["kelurahan:id", "rts"]);
+        return $query->with(["rts:id,rw_id"]);
     }
 }
