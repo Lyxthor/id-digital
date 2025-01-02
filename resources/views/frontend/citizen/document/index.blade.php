@@ -33,7 +33,20 @@
                 </div>
                 <div class="mt-2 space-y-4">
                     <ul class="space-y-2">
-                        <li class="flex justify-between items-center">
+                        @if ($documents!=null && $documents->count() > 0)
+                            @foreach ($documents as $item)
+                            <li class="flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <input type="checkbox" class="h-5 w-5 text-blue-600 border-gray-300 rounded mr-4">
+                                    <span>{{ $item->document_type->name }}</span>
+                                </div>
+                                <a href="{{ route('citizen.documents.show', ['id'=>$item->id]) }}" class="text-blue-500 hover:underline">View Document</a>
+                            </li>
+                            @endforeach
+                        @else
+
+                        @endif
+                        {{-- <li class="flex justify-between items-center">
                             <div class="flex items-center">
                                 <input type="checkbox" class="h-5 w-5 text-blue-600 border-gray-300 rounded mr-4">
                                 <span>Kartu Keluarga (KK)</span>
@@ -53,7 +66,7 @@
                                 <span>Akta Kelahiran</span>
                             </div>
                             <a href="#" class="text-blue-500 hover:underline">View Document</a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </div>
             </div>

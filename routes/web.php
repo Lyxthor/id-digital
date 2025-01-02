@@ -11,6 +11,8 @@ use App\Http\Controllers\SubmissionController;
 use App\Models\SubmissionApproval;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Citizen\SubmissionController as SubmissionCitizenController;
+use App\Http\Controllers\Citizen\DocumentController as DocumentCitizenController;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -24,7 +26,7 @@ use Illuminate\Support\Facades\Route;
     Route::get('register', [AuthController::class, 'showRegister'])->name('register');
     Route::post('login', [AuthController::class, 'login']);
 // });
-
+    Route::get('logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('dashboard', [AdminController::class, 'dashboardPage'])->name('dashboardPage');
     Route::get('submissionPage', [AdminController::class, 'submissionPage'])->name('submissionPage');
     Route::get('addSubmissionPage', [AdminController::class, 'addSubmissionPage'])->name('addSubmissionPage');
@@ -59,3 +61,23 @@ Route::resource('officers', OfficerController::class);
 Route::resource('documents', DocumentController::class);
 Route::resource('citizens', CitizenController::class);
 Route::resource('submissions', SubmissionController::class);
+
+Route::resource("citizen/submissions", SubmissionCitizenController::class)
+->only(["index", "show", "store"])
+->names([
+    "index"=>"citizen.submissions.index",
+    "show"=>"citizen.submissions.show",
+    "store"=>"citizen.submissions.store"
+])
+->parameters([
+    "submissions"=>"id"
+]);
+Route::resource("citizen/documents", DocumentCitizenController::class)
+->only(["index", "show"])
+->names([
+    "index"=>"citizen.documents.index",
+    "show"=>"citizen.documents.show"
+])
+->parameters([
+    "documents"=>"id"
+]);

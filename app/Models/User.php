@@ -53,4 +53,8 @@ class User extends Authenticatable
     {
         return $this->morphTo('userable');
     }
+    public function rt()
+    {
+        return $this->belongsTo(Rt::class, 'rt_id', 'id');
+    }
 }

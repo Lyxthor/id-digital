@@ -10,10 +10,11 @@ use Illuminate\Support\Facades\Auth;
 class DocumentController extends Controller
 {
     //
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
         $documents = $user->userable->documents;
+        $withFamily = $request->query('withFamily', false);
         return view("frontend.citizen.document.index", compact("documents", "documents"));
     }
     public function show($id)
