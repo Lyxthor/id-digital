@@ -28,19 +28,19 @@ use Illuminate\Support\Facades\Route;
     Route::get('dashboard', [AdminController::class, 'dashboardPage'])->name('dashboardPage');
     Route::get('submissionPage', [AdminController::class, 'submissionPage'])->name('submissionPage');
     Route::get('addSubmissionPage', [AdminController::class, 'addSubmissionPage'])->name('addSubmissionPage');
-    
+
     Route::get('addMasterPendudukPage',[AdminController::class, 'addMasterPendudukPage'])->name('addMasterPendudukPage');
     Route::get('masterPendudukPage',[AdminController::class, 'masterPendudukPage'])->name('masterPendudukPage');
     Route::get('editMasterPendudukPage',[AdminController::class,'editMasterPendudukPage'])->name('editMasterPendudukPage');
 
+    Route::get('showSubmissionPage', [SubmissionController::class, 'showSubmissionPage'])->name('showSubmissionPage');
+    Route::get('showDokumenPage',[DocumentController::class, 'showDokumenPage'])->name('showDokumenPage');
+
 
     Route::get('/', [AuthController::class, 'showScanFace'])->name('showScanFace');
-    Route::get('inputtoken',[AuthController::class, 'showInputToken'])->name(('showInputToken'));
     Route::get('Email',[AuthController::class, 'showVerifikasiEmail'])->name(('showVerifikasiEmail'));
-    Route::get('Request',[AuthController::class, 'showRequestData'])->name(('showRequestData'));
-    Route::get('Upload',[AuthController::class, 'showUpDokumen'])->name(('showUpDokumen'));
+    Route::get('Request',[AuthController::class, 'showRequestData'])->name(('showRequestData'));;
     Route::get('Dokumen',[AuthController::class, 'showLihatDokumen'])->name(('showLihatDokumen'));
-    Route::get('Status',[AuthController::class, 'showStatus'])->name(('showStatus'));
     Route::get('Updatedata',[AuthController::class, 'showUpdatedata'])->name(('showUpdatedata'));
 
 

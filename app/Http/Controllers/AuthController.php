@@ -18,21 +18,11 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    public function showInputToken(){
-        return view('auth.inputtoken');
-    }
 
     public function showRequestData(){
         return view('auth.RequestData');
     }
 
-    public function showUpDokumen(){
-        return view('auth.UpDokumen');
-    }
-
-    public function showStatus(){
-        return view('auth.status');
-    }
 
     public function showUpdatedata(){
         return view('auth.UpdateData');

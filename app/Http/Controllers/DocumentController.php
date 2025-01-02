@@ -13,6 +13,11 @@ use Illuminate\Validation\ValidationException;
 
 class DocumentController extends Controller
 {
+
+    public function showDokumenPage(){
+        return view('frontend.citizen.dokumen.index');
+    }
+
     public function index(Request $req)
     {
         $type = $req->type;
