@@ -29,7 +29,7 @@ class StoreSubmissionApprovalRequest extends FormRequest
     {
         return [
             'submission_id'=>'required|exists:submissions,id',
-            'citizen_id'=>'required|exists:citizens,id',
+            'citizen_id'=>"required|exists:citizens,id|unique:submission_approvals,citizen_id,$this->citizen_id,id,submission_id,$this->submission_id",
         ];
     }
     public function withValidator(Validator $validator)

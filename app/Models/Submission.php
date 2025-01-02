@@ -15,4 +15,8 @@ class Submission extends Model
     {
         return $this->hasMany(\App\Models\SubmissionDomain::class, 'submission_id', 'id');
     }
+    public function submission_approvals()
+    {
+        return $this->hasMany(\App\Models\SubmissionApproval::class, 'submission_id', 'id');
+    }
 }

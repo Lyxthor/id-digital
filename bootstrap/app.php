@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Middleware\CheckOfficerAuthority;
+use App\Http\Middleware\SubmissionAccess;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -13,8 +15,13 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->alias([
+            "not_auth"=>\App\Http\Middleware\NotAuth::class,
+            "user_type_auth"=>\App\Http\Middleware\UserTypeAuth::class,
+            "officerAuthority"=>CheckOfficerAuthority::class,
+            "submission.access"=>SubmissionAccess::class
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        
+
     })->create();

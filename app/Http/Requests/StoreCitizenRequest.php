@@ -22,7 +22,14 @@ class StoreCitizenRequest extends FormRequest
     public function rules(): array
     {
         return [
-            
+            "nik"=>"required|unique:citizens",
+            "name"=>"required|max:100",
+            "birth_place"=>"required",
+            "birth_date"=>"required",
+            "current_address"=>"required",
+            "no_kk"=>"required",
+            "family_role"=>"required",
+            "rt_id"=>"required|exists:rts,id"
         ];
     }
 }

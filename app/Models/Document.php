@@ -9,7 +9,7 @@ class Document extends Model
     //
     public function citizen()
     {
-        return $this->belongsTo(\App\Models\Citizen::class);
+        return $this->belongsTo(\App\Models\Citizen::class, 'citizen_id', 'id');
     }
     public function documentType()
     {

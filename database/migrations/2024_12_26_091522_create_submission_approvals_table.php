@@ -26,6 +26,8 @@ return new class extends Migration
             ->on('submissions')
             ->cascadeOnDelete()
             ->cascadeOnUpdate();
+
+            $table->unique(['citizen_id', 'submission_id']);
             $table->timestamps();
         });
     }

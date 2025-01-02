@@ -18,4 +18,8 @@ class Rt extends Model
     {
         return $this->belongsTo(\App\Models\Rw::class, 'rw_id', 'id');
     }
+    public function scopeWithSubDomains($query)
+    {
+        return $query->with([]);
+    }
 }

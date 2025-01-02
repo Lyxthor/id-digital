@@ -14,12 +14,16 @@ class Kelurahan extends Model
     {
         return $this->morphMany(\App\Models\Authority::class, 'authorizable', 'domain_type', 'domain_id');
     }
-    public function Rw()
+    public function rws()
     {
         return $this->hasMany(\App\Models\Rw::class, 'kelurahan_id', 'id');
     }
-    public function Rt()
+    public function rts()
     {
         return $this->hasManyThrough(\App\Models\Rt::class, \App\Models\Rw::class, 'kelurahan_id', 'rw_id', 'id', 'id');
+    }
+    public function scopeWithSubDomains($query)
+    {
+        return $query->with(["rws:id,kelurahan_id","rts:rts.id,rw_id"]);
     }
 }

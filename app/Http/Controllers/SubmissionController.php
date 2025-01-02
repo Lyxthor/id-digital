@@ -59,20 +59,6 @@ class SubmissionController extends Controller
                     "message"=>"Submission created successfully",
                     "data" => $submission
                 ]);
-                // $type_ids = $validData['type_ids'];
-                // unset($validData['type_ids']);
-                // $data = Submission::create($validData);
-                // foreach($type_ids as $id)
-                // {
-                //     DocumentRequirement::create([
-                //         'type_id'=>$id,
-                //         'submission_id'=>$data->id
-                //     ]);
-                // }
-                // return response()->json([
-                //     "message"=>"Submission created successfully",
-                //     "data"=>$data
-                // ]);
             }
         );
     }

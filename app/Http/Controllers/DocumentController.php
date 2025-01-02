@@ -8,6 +8,7 @@ use App\Models\Document;
 use App\Models\DocumentType;
 //use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 
 class DocumentController extends Controller
@@ -105,14 +106,21 @@ class DocumentController extends Controller
             ], 201);
         });
     }
-    public function destroy(Document $doc)
+    public function destroy($id)
     {
-        return $this->getResponse(function() use($doc)
+        return $this->getResponse(function() use($id)
         {
-            $doc->delete();
+            $document = Document::find($id);
+            if($document==null)
+            {
+                return response()->json([
+                    "message"=>"Document with id $id not found",
+                ], Response::HTTP_NOT_FOUND);
+            }
+            $document->delete();
             return response()->json([
-                "message"=>"Update document for citizen $doc[nik] is success",
-                "data"=>$doc
+                "message"=>"Document with id $id is destroyed successfully",
+                "data"=>$document
             ], 201);
         });
     }
@@ -122,7 +130,6 @@ class DocumentController extends Controller
         {
             return $func();
         }
-
         catch (\Exception $e)
         {
             return response()->json([
