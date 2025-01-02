@@ -6,6 +6,7 @@
     <title>Digiid | @yield('title')</title>
 
     @vite('resources/css/app.css')
+    @stack('styles')
 </head>
 <body>
     @yield('content')
