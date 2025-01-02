@@ -17,4 +17,5 @@ class AdminController extends Controller
     public function addSubmissionPage(){
         return view('backend.submission.create');
     }
+
 }
