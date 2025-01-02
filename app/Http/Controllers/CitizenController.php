@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 
 class CitizenController extends Controller
 {
+
     public function index()
     {
         try

@@ -39,7 +39,8 @@
                             <td class="py-2 px-4 border-b border-gray-200">Blabalabala</td>
                             <td class="py-2 px-4 border-b border-gray-200">2023-12-31</td>
                             <td class="py-2 px-4 border-b border-gray-200">
-                                <a href="#" class="bg-yellow-500 text-white px-4 py-2 rounded">Edit</a>
+                                <button class="bg-blue-400 text-white px-3 py-2 rounded">Show</button>
+                                <button class="bg-yellow-500 text-white px-4 py-2 rounded">Edit</button>
                                 <form action="#" method="POST" class="inline-block">
                                     <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Delete</button>
                                 </form>

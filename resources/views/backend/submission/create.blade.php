@@ -39,6 +39,7 @@
                 <option value="Penduduk">Penduduk</option>
               </select>
             </div>
+
             <div class="col-span-2">
               <label for="deskripsi" class="block text-sm font-medium text-gray-700">Deskripsi</label>
               <textarea id="deskripsi" placeholder="Deskripsi" class="mt-1 w-full border border-gray-300 rounded-lg shadow-sm focus:ring-[#124868] focus:border-[#124868] px-4 py-2" rows="3" required></textarea>
@@ -47,6 +48,15 @@
               <label for="deadline" class="block text-sm font-medium text-gray-700">Deadline</label>
               <input id="deadline" type="date" class="mt-1 w-full border border-gray-300 rounded-lg shadow-sm focus:ring-[#124868] focus:border-[#124868] px-4 py-2" required>
             </div>
+            <div>
+                <label for="tipe_dokumen" class="block text-sm font-medium text-gray-700">Tipe Dokumen</label>
+                <select id="tipe_dokumen" class="mt-1 w-full border border-gray-300 rounded-lg shadow-sm focus:ring-[#124868] focus:border-[#124868] px-4 py-2" required>
+                  <option value="" disabled selected>Pilih Tipe Dokumen</option>
+                  <option value="akta_kelahiran">Akta Kelahiran</option>
+                  <option value="kk">Kartu Keluarga</option>
+                  <option value="tkp">TKP</option>
+                </select>
+              </div>
             <div class="col-span-2">
               <button type="submit" class="w-full bg-[#124868] text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition">
                 Submit

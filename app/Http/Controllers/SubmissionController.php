@@ -13,6 +13,10 @@ use Illuminate\Http\Request;
 
 class SubmissionController extends Controller
 {
+    public  function showSubmissionPage(){
+        return view('frontend.citizen.submission.index');
+    }
+
     public function index()
     {
         return response()->json([
