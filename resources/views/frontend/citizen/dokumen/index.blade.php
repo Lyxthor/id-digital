@@ -1,5 +1,5 @@
 @extends('layouts.user')
-@prepend('style')
+@prepend('styles')
     <style>
         /* Custom Color */
         .bg-custom-blue {
@@ -13,7 +13,7 @@
 @endprepend
 @section('content')
     <!-- Form Content -->
-    <main>
+    <main class="container mx-auto px-6 py-8">
         <div class="px-6 pt-6 pb-16">
             <div class="mb-6">
                 <label for="user-category" class="block text-gray-700 font-medium mb-2">Kategori Pengguna</label>
