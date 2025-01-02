@@ -28,6 +28,10 @@ use Illuminate\Support\Facades\Route;
     Route::get('dashboard', [AdminController::class, 'dashboardPage'])->name('dashboardPage');
     Route::get('submissionPage', [AdminController::class, 'submissionPage'])->name('submissionPage');
     Route::get('addSubmissionPage', [AdminController::class, 'addSubmissionPage'])->name('addSubmissionPage');
+    
+    Route::get('addMasterPendudukPage',[AdminController::class, 'addMasterPendudukPage'])->name('addMasterPendudukPage');
+    Route::get('masterPendudukPage',[AdminController::class, 'masterPendudukPage'])->name('masterPendudukPage');
+    Route::get('editMasterPendudukPage',[AdminController::class,'editMasterPendudukPage'])->name('editMasterPendudukPage');
 
 
     Route::get('/', [AuthController::class, 'showScanFace'])->name('showScanFace');

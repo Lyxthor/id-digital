@@ -18,4 +18,16 @@ class AdminController extends Controller
         return view('backend.submission.create');
     }
 
+
+    public function masterPendudukPage(){
+        return view('backend.penduduk.index');
+    }
+    
+    public function addMasterPendudukPage(){
+        return view('backend.penduduk.create');
+    }
+
+    public function editMasterPendudukPage(){
+        return view('backend.penduduk.edit');
+    }
 }
