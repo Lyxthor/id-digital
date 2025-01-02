@@ -9,7 +9,14 @@ use Illuminate\Http\Request;
 
 class OfficerController extends Controller
 {
-    //
+    public function showSubmissionOfficer(){
+        return view('frontend.officer.submission.index');
+    }
+
+    public function showSubmissionOfficerDetail(){
+        return view('frontend.officer.submission.show');
+    }
+
     public function index()
     {
         return response()->json([

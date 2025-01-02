@@ -37,10 +37,10 @@ use App\Http\Controllers\Citizen\DocumentController as DocumentCitizenController
 
     Route::get('showSubmissionPage', [SubmissionController::class, 'showSubmissionPage'])->name('showSubmissionPage');
     Route::get('showDokumenPage',[DocumentController::class, 'showDokumenPage'])->name('showDokumenPage');
+    Route::get('showSubmissionOfficer',[OfficerController::class, 'showSubmissionOfficer'])->name('showSubmissionOfficer');
+    Route::get('showSubmissionOfficerDetail',[OfficerController::class, 'showSubmissionOfficerDetail'])->name('showSubmissionOfficerDetail');
 
 
-    Route::get('/', [AuthController::class, 'showScanFace'])->name('showScanFace');
-    Route::get('Email',[AuthController::class, 'showVerifikasiEmail'])->name(('showVerifikasiEmail'));
     Route::get('Request',[AuthController::class, 'showRequestData'])->name(('showRequestData'));;
     Route::get('Dokumen',[AuthController::class, 'showLihatDokumen'])->name(('showLihatDokumen'));
     Route::get('Updatedata',[AuthController::class, 'showUpdatedata'])->name(('showUpdatedata'));
