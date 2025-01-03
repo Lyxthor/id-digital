@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Response;
+use App\Rules\ValidSubmissionDomain;
 
 class UpdateSubmissionRequest extends FormRequest
 {
@@ -14,7 +15,7 @@ class UpdateSubmissionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -27,10 +28,14 @@ class UpdateSubmissionRequest extends FormRequest
         return [
             'title'=>'required|max:200',
             'desc'=>'required|max:2000',
-            'type_ids'=>'required|array',
-            'type_ids.*'=>'integer|exists:document_types,id',
+            'deadline'=>'required|date|after:now',
+            'document_requirements'=>'required|array|min:1',
+            'document_requirements.*'=>'integer|exists:document_types,id',
+            'domains'=>['required', 'array', 'min:1'],
+            'domains'=>[new ValidSubmissionDomain($this->domains)]
         ];
     }
+
     protected function failedValidation(Validator $validator)
     {
         throw (new HttpResponseException(response([

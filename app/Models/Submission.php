@@ -22,7 +22,10 @@ class Submission extends Model
     public function scopeUserSubmission($query, $domainIds)
     {
         return $query
-        ->whereRelation("submission_domains", "domain_type", "in", ["kelurahan", "rw", "rt"])
-        ->whereRelation("submission_domains", "domain_id", "in", $domainIds);
+        ->whereHas("submission_domains", function($query) use($domainIds) {
+            $query->whereIn("domain_type", ["kelurahan", "rw", "rt"])->whereIn("domain_id", $domainIds);
+        });
+        // ????????????????????????????????????????????????????????
+
     }
 }

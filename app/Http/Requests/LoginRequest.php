@@ -53,12 +53,12 @@ class LoginRequest extends FormRequest
             $this->failedValidation($validator);
         }
     }
-    public function validated($key = null, $defaul = null)
-    {
-        $validatedData = parent::validated();
-        $validatedData['user'] = $this->user;
-        return $validatedData;
-    }
+    // public function validated($key = null, $defaul = null)
+    // {
+    //     $validatedData = parent::validated();
+    //     $validatedData['user'] = $this->user;
+    //     return $validatedData;
+    // }
     protected function failedValidation(Validator $validator)
     {
         throw (new HttpResponseException(response([

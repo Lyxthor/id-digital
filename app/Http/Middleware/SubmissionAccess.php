@@ -30,7 +30,7 @@ class SubmissionAccess
     public function handle(Request $request, Closure $next): Response
     {
         $domainModel = config('morphmap');
-        $modelName = explode(".", Route::currentRouteName())[0];
+        $modelName = explode(".", Route::currentRouteName())[1];
         $id = $request->route('id');
         $user = Auth::user();
 

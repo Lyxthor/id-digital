@@ -12,7 +12,7 @@
 
             <!-- Bagian Kanan -->
             <div class="w-1/2 bg-[#124868] text-white p-8 flex flex-col justify-center">
-                <form action="{{ route('login') }}" method="POST">
+                <form action="/login" method="POST">
                     @csrf
                     <!-- Full Name Input -->
                     <div class="mb-4">
@@ -30,7 +30,7 @@
                     </div>
 
                     <!-- Tombol Lanjutkan -->
-                    <button onclick="window.location.href='./dashboard.html';" type="button"
+                    <button type="submit"
                         class="w-full bg-teal-500 text-white p-3 rounded hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-400">
                         Login
                     </button>

@@ -11,7 +11,7 @@ class Document extends Model
     {
         return $this->belongsTo(\App\Models\Citizen::class, 'citizen_id', 'id');
     }
-    public function documentType()
+    public function document_type()
     {
         return $this->belongsTo(\App\Models\DocumentType::class, 'type_id', 'id');
     }

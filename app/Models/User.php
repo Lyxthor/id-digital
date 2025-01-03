@@ -9,7 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
-
+use Illuminate\Support\Facades\Session;
 
 class User extends Authenticatable
 {
@@ -52,5 +52,17 @@ class User extends Authenticatable
     public function userable() : MorphTo
     {
         return $this->morphTo('userable');
+    }
+    public function rt()
+    {
+        return $this->belongsTo(Rt::class, 'rt_id', 'id');
+    }
+    public function getUsedPrivilegeAttribute()
+    {
+        return Session::get('usedPrivilege', null);
+    }
+    public function setUsedPrivilegeAttribute($value)
+    {
+        Session::put('usedPrivilege', $value);
     }
 }

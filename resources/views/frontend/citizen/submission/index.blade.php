@@ -14,40 +14,28 @@
     @section('content')
         <div class="container mx-auto px-4 py-8">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="bg-white shadow-md rounded-lg overflow-hidden">
-                    <div class="p-4">
-                        <h2 class="text-xl font-bold text-custom-blue">Data Kesehatan</h2>
-                        <p class="text-gray-600 mt-2">Added by: PUPR</p>
-                        <p class="text-gray-600 mt-2">Deadline: 19 Oktober 2024</p>
-                        <p class="text-gray-600 mt-2">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Harum ad facere
-                            doloremque pariatur provident obcaecati cupiditate voluptatum est aut tempora?</p>
-                        <div class="mt-4">
-                            <button class="bg-custom-blue text-white px-4 py-2 rounded">Approve</button>
+                @if ($submissions!=null && $submissions->count() > 0)
+                    @foreach ($submissions as $item)
+                        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                            <div class="p-4">
+                                <h2 class="text-xl font-bold text-custom-blue">{{ $item->title }}</h2>
+                                <p class="text-gray-600 mt-2">Added by: </p>
+                                <p class="text-gray-600 mt-2">Deadline: {{ $item->deadline }}</p>
+                                <p class="text-gray-600 mt-2">{{ $item->desc }}</p>
+                                <div class="mt-4">
+                                    <form action="{{ route('citizen.submissions.store') }}" method="post">
+                                        @csrf
+                                        <input type="hidden" name="submission_id" id="submission_id" value="{{ $item->id }}">
+                                        <input type="hidden" name="citizen_id" id="citizen_id" value="{{ Auth::user()->userable->id }}">
+                                        <button class="bg-custom-blue text-white px-4 py-2 rounded" type="submit">Approve</button>
+                                    </form>
+                                    {{-- <a href="{{ route('citizen.submissions.show', ['id'=>$item->id]) }}" class="bg-custom-blue text-white px-4 py-2 rounded">Approve</a> --}}
+                                    {{-- <button class="bg-custom-blue text-white px-4 py-2 rounded">Approve</button> --}}
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="bg-white shadow-md rounded-lg overflow-hidden">
-                    <div class="p-4">
-                        <h2 class="text-xl font-bold text-custom-blue">Data Kesehatan</h2>
-                        <p class="text-gray-600 mt-2">Added by: PUPR</p>
-                        <p class="text-gray-600 mt-2">Deadline: 19 Oktober 2024</p>
-                        <p class="text-gray-600 mt-2">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Harum ad facere
-                            doloremque pariatur provident obcaecati cupiditate voluptatum est aut tempora?</p>
-                        <div class="mt-4">
-                            <button class="bg-custom-blue text-white px-4 py-2 rounded">Approve</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-white shadow-md rounded-lg overflow-hidden">
-                    <div class="p-4">
-                        <h2 class="text-xl font-bold text-custom-blue">Data Kesehatan</h2>
-                        <p class="text-gray-600 mt-2">Added by: PUPR</p>
-                        <p class="text-gray-600 mt-2">Deadline: 19 Oktober 2024</p>
-                        <p class="text-gray-600 mt-2">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Harum ad facere
-                            doloremque pariatur provident obcaecati cupiditate voluptatum est aut tempora?</p>
-                        <div class="mt-4">
-                            <button class="bg-custom-blue text-white px-4 py-2 rounded">Approve</button>
-                        </div>
-                    </div>
-            </div>
+                    @endforeach
+                @else
+                    <div>No submission found</div>
+                @endif
         @endsection
