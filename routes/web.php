@@ -15,6 +15,8 @@ use App\Http\Controllers\Citizen\SubmissionApprovalController as ApprovalCitizen
 use App\Http\Controllers\Officer\SubmissionController as SubmissionOfficerController;
 use App\Http\Controllers\Citizen\DocumentController as DocumentCitizenController;
 use App\Http\Controllers\Officer\AuthController as AuthOfficerController;
+use App\Http\Controllers\Officer\SubmissionApprovalController as ApprovalOfficerController;
+use App\Http\Controllers\Dukcapil\DocumentController as DocumentDukcapilController;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -31,12 +33,12 @@ Route::group(["middleware"=>["guest"]], function() {
 });
 Route::group(["middleware"=>["auth"]], function() {
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
-
+    Route::get('display_image/{filename}', [DocumentController::class, 'displayImage'])->name('document.display');
     // AUTHENTICATED OFFICER ROUTES
-    Route::group(["middleware"=>["user.type:officer"]], function() {
+    Route::group([], function() {
         Route::get('officer/privilege', [AuthOfficerController::class, 'index'])->name('officer.privileges.index');
         Route::post('officer/privilege', [AuthOfficerController::class, 'store'])->name('officer.privileges.store');
-
+        Route::get('officer/submission_approvals/{id}', [ApprovalOfficerController::class, 'show'])->name('officer.submission_approvals.show');
         Route::resource("officer/submissions", SubmissionOfficerController::class)
         ->names([
             "index"=>"officer.submissions.index",
@@ -73,29 +75,20 @@ Route::group(["middleware"=>["auth"]], function() {
             "documents"=>"id"
         ]);
     });
-    Route::group(["middleware"=>["user.type:citizen"]], function() {
-        Route::resource("citizen/submissions", ApprovalCitizenController::class)
-        ->only(["index", "show", "store"])
+
+    Route::group(["middleware"=>["user.type:dukcapil"]], function() {
+        Route::resource("dukcapil/documents", DocumentDukcapilController::class)
         ->names([
-            "index"=>"citizen.submissions.index",
-            "show"=>"citizen.submissions.show",
-            "store"=>"citizen.submissions.store"
-        ])
-        ->parameters([
-            "submissions"=>"id"
-        ]);
-        Route::resource("citizen/documents", DocumentCitizenController::class)
-        ->only(["index", "show"])
-        ->names([
-            "index"=>"citizen.documents.index",
-            "show"=>"citizen.documents.show"
-        ])
-        ->parameters([
+            "index"=>"dukcapil.documents.index",
+            "show"=>"dukcapil.documents.show",
+            "edit"=>"dukcapil.documents.edit",
+            "create"=>"dukcapil.documents.create",
+            "store"=>"dukcapil.documents.store",
+            "update"=>"dukcapil.documents.update",
+            "destroy"=>"dukcapil.documents.destroy",
+        ])->parameters([
             "documents"=>"id"
         ]);
-    });
-    Route::group(["middleware"=>["user.type:dukcapil"]], function() {
-
     });
 });
 

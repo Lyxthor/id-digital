@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Officer;
 use App\Models\Authority;
+use App\Models\Dukcapil;
 use App\Models\Userable;
 use Illuminate\Support\Arr;
 
@@ -74,6 +75,17 @@ class OfficerSeeder extends Seeder
                 Authority::create($a);
             }
         }
+        $dukcapil = Dukcapil::create(["name"=>"Suhadi Muldoko"]);
+        $dukcapilUser =
+        [
+            "username"=>"suhadimuldoko75",
+            "email"=>"suhadimuldoko75@gmail.com",
+            "mobile"=>"0823471237",
+            "password"=>bcrypt("1234567"),
+            "userable_type"=>"dukcapil",
+            "userable_id"=>$dukcapil->id
+        ];
+        User::create($dukcapilUser);
     }
     private function generateUser($data)
     {

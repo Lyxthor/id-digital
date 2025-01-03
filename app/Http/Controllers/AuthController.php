@@ -47,6 +47,8 @@ class AuthController extends Controller
                         return redirect()->route('citizen.submissions.index')->with('success', 'citizen logged in successfully');
                     case 'officer' :
                         return redirect()->route('officer.privileges.index')->with('success', 'officer logged in successfully');
+                    case 'dukcapil' :
+                        return redirect()->route('dukcapil.documents.create')->with('success', 'dukcapil logged in successfully');
                 }
             }
             return back()->with('error', 'invalid credentials');

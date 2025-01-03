@@ -36,20 +36,24 @@ class SubmissionAccess
 
 
         $submission = $this->model[$modelName]::find($id);
-        if($modelName=="submission_approvals")
-            $submission = $submission->submission;
-        $domains = $submission->submission_domains;
 
-        foreach($user->userable->authorities as $auth)
+        if($submission != null)
         {
-            //dd($auth->authorizable);
-            $data = $domainModel[$auth->authorizable_type]::select(['id'])->withSubDomains()->find($auth->authorizable_id)->toArray();
-            $data = $this->DispatchDomain($auth->authorizable_type, $data);
-            foreach($domains as $d)
+            if($modelName=="submission_approvals")
+            $submission = $submission->submission;
+            $domains = $submission->submission_domains;
+
+            foreach($user->userable->authorities as $auth)
             {
-                if(in_array($d->domain_type.$d->domain_id, $data))
+                //dd($auth->authorizable);
+                $data = $domainModel[$auth->authorizable_type]::select(['id'])->withSubDomains()->find($auth->authorizable_id)->toArray();
+                $data = $this->DispatchDomain($auth->authorizable_type, $data);
+                foreach($domains as $d)
                 {
-                    return $next($request);
+                    if(in_array($d->domain_type.$d->domain_id, $data))
+                    {
+                        return $next($request);
+                    }
                 }
             }
         }

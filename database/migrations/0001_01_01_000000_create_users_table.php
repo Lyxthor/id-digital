@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('mobile')->unique();
             $table->string('password');
             $table->unsignedBigInteger('userable_id');
-            $table->enum('userable_type', ['citizen', 'officer']);
+            $table->enum('userable_type', ['citizen', 'officer', 'dukcapil']);
             $table->timestamps();
         });
 

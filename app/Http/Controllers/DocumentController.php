@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage;
 
 class DocumentController extends Controller
 {
@@ -59,15 +60,16 @@ class DocumentController extends Controller
     }
     public function displayImage($filename)
     {
-        $filePath = public_path('images/' . $filename);
+        $filePath = 'images/'.$filename;
 
         // Pastikan file ada
-        if (!file_exists($filePath)) {
+        if (!Storage::disk('public')->exists($filePath)) {
+            dd($filePath);
             abort(404, 'File not found.');
         }
 
         // Baca dan dekripsi konten file
-        $encryptedContent = file_get_contents($filePath);
+        $encryptedContent = Storage::disk('public')->get($filePath);
         $decryptedContent = ImageCipherHelper::decrypt($encryptedContent);
 
         // Tentukan MIME type berdasarkan ekstensi file
