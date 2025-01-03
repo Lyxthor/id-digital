@@ -7,8 +7,9 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use App\Rules\SubmissionDomainIsValid;
+use App\Rules\ValidSubmissionDomain;
 use Illuminate\Http\Response;
-
+use Illuminate\Support\Facades\Auth;
 class StoreSubmissionRequest extends FormRequest
 {
     /**
@@ -29,20 +30,18 @@ class StoreSubmissionRequest extends FormRequest
         $rules =  [
             'title'=>'required|max:200',
             'desc'=>'required|max:2000',
-            'author_id'=>'required|exists:officers,id',
-            'privilege'=>'required|in:kelurahan,rt,rw|bail',
-            'deadline'=>'required|date|date_format:Y-m-d H:i:s|after:now',
+            'deadline'=>'required|date|after:now',
             'document_requirements'=>'required|array|min:1',
             'document_requirements.*'=>'integer|exists:document_types,id',
-            'domains'=>['required', 'array'],
-            'domains.*.type'=>['required', 'string', 'in:kelurahan,rw,rt'],
-            'domains.*.ids'=>['required', 'array', 'min:1'],
-            'domains.*.ids.*'=>['array', 'min:1'],
-            'domains.*.ids.*.id'=>'required',
-            'domains.*.ids.*.kelurahan_id'=>'required',
-            'domains.*.ids.*.rw_id'=>'required_if:domains.*.type,in:rw,rt',
-            'domains.*.ids.*.rt_id'=>'required_if:domains.*.type,rt',
-            'domains'=>[new SubmissionDomainIdsAreValid($this->domains, $this->privilege, $this->author_id)]
+            'domains'=>['required', 'array', 'min:1'],
+            'domains'=>[new ValidSubmissionDomain($this->domains)]
+            // 'domains.*.type'=>['required', 'string', 'in:kelurahan,rw,rt'],
+            // 'domains.*.ids'=>['required', 'array', 'min:1'],
+            // 'domains.*.ids.*'=>['array', 'min:1'],
+            // 'domains.*.ids.*.id'=>'required',
+            // 'domains.*.ids.*.kelurahan_id'=>'required',
+            // 'domains.*.ids.*.rw_id'=>'required_if:domains.*.type,in:rw,rt',
+            // 'domains.*.ids.*.rt_id'=>'required_if:domains.*.type,rt',
 
             //'domains.*.type'=>'required|string|in:kelurahan,rw,rt',
         ];
@@ -61,6 +60,12 @@ class StoreSubmissionRequest extends FormRequest
     //         });
     //     }
     // }
+    public function validated($key = null, $default = null)
+    {
+        $validatedData = parent::validated();
+        $validatedData['author_id'] = Auth::user()->id;
+        return $validatedData;
+    }
     protected function failedValidation(Validator $validator)
     {
         throw (new HttpResponseException(response([

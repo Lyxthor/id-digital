@@ -40,7 +40,14 @@ class AuthController extends Controller
             $credentials = $req->validated();
             if(Auth::attempt($credentials))
             {
-                return redirect()->route('citizen.submissions.index')->with('success', 'citizen logged in successfully');
+                $user = Auth::user();
+                switch($user->userable_type)
+                {
+                    case 'citizen' :
+                        return redirect()->route('citizen.submissions.index')->with('success', 'citizen logged in successfully');
+                    case 'officer' :
+                        return redirect()->route('officer.privileges.index')->with('success', 'officer logged in successfully');
+                }
             }
             return back()->with('error', 'invalid credentials');
         });

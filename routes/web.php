@@ -11,8 +11,10 @@ use App\Http\Controllers\SubmissionController;
 use App\Models\SubmissionApproval;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Citizen\SubmissionController as SubmissionCitizenController;
+use App\Http\Controllers\Citizen\SubmissionApprovalController as ApprovalCitizenController;
+use App\Http\Controllers\Officer\SubmissionController as SubmissionOfficerController;
 use App\Http\Controllers\Citizen\DocumentController as DocumentCitizenController;
+use App\Http\Controllers\Officer\AuthController as AuthOfficerController;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -22,11 +24,83 @@ use App\Http\Controllers\Citizen\DocumentController as DocumentCitizenController
 // });
 
 // Route::group(["middleware"=>['not_auth']], function () {
+Route::group(["middleware"=>["guest"]], function() {
     Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::get('register', [AuthController::class, 'showRegister'])->name('register');
     Route::post('login', [AuthController::class, 'login']);
-// });
+});
+Route::group(["middleware"=>["auth"]], function() {
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+
+    // AUTHENTICATED OFFICER ROUTES
+    Route::group(["middleware"=>["user.type:officer"]], function() {
+        Route::get('officer/privilege', [AuthOfficerController::class, 'index'])->name('officer.privileges.index');
+        Route::post('officer/privilege', [AuthOfficerController::class, 'store'])->name('officer.privileges.store');
+
+        Route::resource("officer/submissions", SubmissionOfficerController::class)
+        ->names([
+            "index"=>"officer.submissions.index",
+            "show"=>"officer.submissions.show",
+            "edit"=>"officer.submissions.edit",
+            "create"=>"officer.submissions.create",
+            "store"=>"officer.submissions.store",
+            "update"=>"officer.submissions.update",
+            "destroy"=>"officer.submissions.destroy",
+        ])
+        ->parameters([
+            "submissions"=>"id"
+        ]);
+    });
+    // AUTHENTICATED CITIZEN ROUTES
+    Route::group(["middleware"=>["user.type:citizen"]], function() {
+        Route::resource("citizen/submissions", ApprovalCitizenController::class)
+        ->only(["index", "show", "store"])
+        ->names([
+            "index"=>"citizen.submissions.index",
+            "show"=>"citizen.submissions.show",
+            "store"=>"citizen.submissions.store"
+        ])
+        ->parameters([
+            "submissions"=>"id"
+        ]);
+        Route::resource("citizen/documents", DocumentCitizenController::class)
+        ->only(["index", "show"])
+        ->names([
+            "index"=>"citizen.documents.index",
+            "show"=>"citizen.documents.show"
+        ])
+        ->parameters([
+            "documents"=>"id"
+        ]);
+    });
+    Route::group(["middleware"=>["user.type:citizen"]], function() {
+        Route::resource("citizen/submissions", ApprovalCitizenController::class)
+        ->only(["index", "show", "store"])
+        ->names([
+            "index"=>"citizen.submissions.index",
+            "show"=>"citizen.submissions.show",
+            "store"=>"citizen.submissions.store"
+        ])
+        ->parameters([
+            "submissions"=>"id"
+        ]);
+        Route::resource("citizen/documents", DocumentCitizenController::class)
+        ->only(["index", "show"])
+        ->names([
+            "index"=>"citizen.documents.index",
+            "show"=>"citizen.documents.show"
+        ])
+        ->parameters([
+            "documents"=>"id"
+        ]);
+    });
+    Route::group(["middleware"=>["user.type:dukcapil"]], function() {
+
+    });
+});
+
+// });
+
     Route::get('dashboard', [AdminController::class, 'dashboardPage'])->name('dashboardPage');
     Route::get('submissionPage', [AdminController::class, 'submissionPage'])->name('submissionPage');
     Route::get('addSubmissionPage', [AdminController::class, 'addSubmissionPage'])->name('addSubmissionPage');
@@ -62,22 +136,4 @@ Route::resource('documents', DocumentController::class);
 Route::resource('citizens', CitizenController::class);
 Route::resource('submissions', SubmissionController::class);
 
-Route::resource("citizen/submissions", SubmissionCitizenController::class)
-->only(["index", "show", "store"])
-->names([
-    "index"=>"citizen.submissions.index",
-    "show"=>"citizen.submissions.show",
-    "store"=>"citizen.submissions.store"
-])
-->parameters([
-    "submissions"=>"id"
-]);
-Route::resource("citizen/documents", DocumentCitizenController::class)
-->only(["index", "show"])
-->names([
-    "index"=>"citizen.documents.index",
-    "show"=>"citizen.documents.show"
-])
-->parameters([
-    "documents"=>"id"
-]);
+

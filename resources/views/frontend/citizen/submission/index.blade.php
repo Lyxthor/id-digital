@@ -23,7 +23,13 @@
                                 <p class="text-gray-600 mt-2">Deadline: {{ $item->deadline }}</p>
                                 <p class="text-gray-600 mt-2">{{ $item->desc }}</p>
                                 <div class="mt-4">
-                                    <a href="{{ route('citizen.submissions.show', ['id'=>$item->id]) }}" class="bg-custom-blue text-white px-4 py-2 rounded">Approve</a>
+                                    <form action="{{ route('citizen.submissions.store') }}" method="post">
+                                        @csrf
+                                        <input type="hidden" name="submission_id" id="submission_id" value="{{ $item->id }}">
+                                        <input type="hidden" name="citizen_id" id="citizen_id" value="{{ Auth::user()->userable->id }}">
+                                        <button class="bg-custom-blue text-white px-4 py-2 rounded" type="submit">Approve</button>
+                                    </form>
+                                    {{-- <a href="{{ route('citizen.submissions.show', ['id'=>$item->id]) }}" class="bg-custom-blue text-white px-4 py-2 rounded">Approve</a> --}}
                                     {{-- <button class="bg-custom-blue text-white px-4 py-2 rounded">Approve</button> --}}
                                 </div>
                             </div>

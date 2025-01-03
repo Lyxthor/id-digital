@@ -30,4 +30,8 @@ class Kelurahan extends Model
     {
         return $query->with(["rws:id,kelurahan_id","rts:rts.id,rw_id"]);
     }
+    public function scopeWithRelatedSubmission($query)
+    {
+        return $query->with(["submission_domains:submission", "rws:submission_domains:submission", "rts:submission_domains:submission"]);
+    }
 }

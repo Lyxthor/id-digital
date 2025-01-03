@@ -26,8 +26,8 @@ class SubmissionController extends Controller
     }
     public function create()
     {
-        
-        $document_types = DocumentType::select(['id', 'name'])->all();
+
+        $document_types = DocumentType::all();
         return view("frontend.officer.submission.create");
     }
     public function store(StoreSubmissionRequest $req)
