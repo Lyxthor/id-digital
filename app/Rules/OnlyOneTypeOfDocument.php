@@ -29,7 +29,8 @@ class OnlyOneTypeOfDocument implements ValidationRule
         $document=$this->citizen->documents->where("type_id", $value);
         if($document->count() > 0) // fail the validation if citizen already have a document with the same type
         {
-            $type_name = $document->first()->documentType->name;
+            //dd($document);
+            $type_name = $document->first()->document_type->name;
             $nik = $this->citizen->nik;
             $fail("The document with type of ".$type_name." already exists for citizen ".$nik);
         }
